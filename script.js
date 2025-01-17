@@ -1,15 +1,21 @@
-// Elements
 const categoryInput = document.getElementById('category');
 const taskInput = document.getElementById('task');
 const timeInput = document.getElementById('time');
+const frequencyInput = document.getElementById('frequency');
 const addReminderBtn = document.getElementById('addReminder');
 const reminderList = document.getElementById('reminderList');
 
-// Load reminders from localStorage
 const reminders = JSON.parse(localStorage.getItem('reminders')) || [];
 renderReminders();
 
-// Request Notification Permission
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').then((registration) => {
+    console.log('Service Worker registered with scope:', registration.scope);
+  }).catch((error) => {
+    console.error('Service Worker registration failed:', error);
+  });
+}
+
 if (Notification.permission === 'default') {
   Notification.requestPermission().then((permission) => {
     if (permission !== 'granted') {
@@ -18,28 +24,32 @@ if (Notification.permission === 'default') {
   });
 }
 
-// Add reminder
 addReminderBtn.addEventListener('click', () => {
   const category = categoryInput.value;
   const taskName = taskInput.value;
   const reminderTime = timeInput.value;
+  const frequency = frequencyInput.value;
 
   if (!taskName || !reminderTime) {
     alert('Please enter both task name and time.');
     return;
   }
 
-  const reminder = { category, taskName, reminderTime, id: Date.now() };
+  const reminder = { category, taskName, reminderTime, frequency, id: Date.now() };
   reminders.push(reminder);
   localStorage.setItem('reminders', JSON.stringify(reminders));
   renderReminders();
-  scheduleReminder(reminder);
+
+  if (frequency === 'daily') {
+    scheduleDailyReminder(reminder);
+  } else {
+    scheduleReminder(reminder);
+  }
 
   taskInput.value = '';
   timeInput.value = '';
 });
 
-// Render reminders
 function renderReminders() {
   reminderList.innerHTML = '';
   reminders.forEach((reminder) => {
@@ -55,7 +65,6 @@ function renderReminders() {
   });
 }
 
-// Delete reminder
 function deleteReminder(id) {
   const index = reminders.findIndex((r) => r.id === id);
   if (index > -1) {
@@ -65,7 +74,6 @@ function deleteReminder(id) {
   }
 }
 
-// Schedule reminder with notification
 function scheduleReminder(reminder) {
   const now = new Date();
   const [hours, minutes] = reminder.reminderTime.split(':').map(Number);
@@ -79,7 +87,23 @@ function scheduleReminder(reminder) {
   }
 }
 
-// Show browser notification
+function scheduleDailyReminder(reminder) {
+  const [hours, minutes] = reminder.reminderTime.split(':').map(Number);
+  const now = new Date();
+  let reminderDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes);
+
+  if (reminderDate < now) {
+    reminderDate.setDate(reminderDate.getDate() + 1);
+  }
+
+  const delay = reminderDate.getTime() - now.getTime();
+
+  setTimeout(() => {
+    showNotification(reminder);
+    scheduleDailyReminder(reminder);
+  }, delay);
+}
+
 function showNotification(reminder) {
   if (Notification.permission === 'granted') {
     const icons = {
@@ -91,6 +115,14 @@ function showNotification(reminder) {
     new Notification('Reminder', {
       body: `${reminder.category.toUpperCase()} - ${reminder.taskName}`,
       icon: icons[reminder.category] || '',
+    });
+  } else if (Notification.permission === 'default') {
+    Notification.requestPermission().then((permission) => {
+      if (permission === 'granted') {
+        showNotification(reminder);
+      } else {
+        alert('Please enable notifications for reminders.');
+      }
     });
   } else {
     alert(`${reminder.category.toUpperCase()} - ${reminder.taskName}`);
