@@ -1,0 +1,109 @@
+/* General Page Style */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #F3DFBF; /* Soft beige background for the body */
+  color: #07004D; /* Dark blue text for general content */
+  display: flex;
+  justify-content: center; /* Center align the content horizontally */
+  align-items: center; /* Center align the content vertically */
+  min-height: 100vh; /* Ensure the content takes full height of the viewport */
+  flex-direction: column; /* Stack items vertically */
+}
+
+/* Heading Style */
+h1 {
+  color: #07004D; /* Dark blue for the heading */
+  text-shadow: 1px 1px #42E2B8; /* Light teal shadow for emphasis */
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px; /* Space below the heading */
+}
+
+
+/* Input Fields, Select Dropdown, and Buttons */
+input, select, button {
+  margin: 10px 0;
+  padding: 10px;
+  font-size: 16px;
+  border: 2px solid black; /* Black outline for better contrast */
+  border-radius: 5px;
+  background-color: #EB8A90; /* Light pink background for form elements */
+  color: #07004D; /* Dark blue text */
+  width: 100%; /* Make inputs and buttons take full width of their parent container */
+  max-width: 400px; /* Limit the max width for better responsiveness */
+}
+
+/* Input placeholder color */
+input::placeholder {
+  color: #2D82B7; /* Medium blue placeholder text */
+  opacity: 0.8;
+}
+
+/* Button Hover Effects */
+button:hover {
+  background-color: #42E2B8; /* Light teal on hover */
+  color: #07004D; /* Dark blue text */
+  cursor: pointer;
+}
+
+/* Reminder List */
+#reminderList {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px; /* Limit the max width for reminder list */
+  padding: 10px;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Reminder Item */
+.reminder-item {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #2D82B7; /* Medium blue border */
+  background-color: #F3DFBF; /* Soft beige background for reminder items */
+  color: #07004D; /* Dark blue text */
+  border-radius: 5px;
+}
+
+/* Delete Button Style */
+.reminder-item button {
+  margin-left: 10px;
+  background-color: #42E2B8; /* Light teal background */
+  color: #07004D; /* Dark blue text */
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+
+.reminder-item button:hover {
+  background-color: #07004D; /* Dark blue background on hover */
+  color: #F3DFBF; /* Soft beige text */
+  cursor: pointer;
+}
+
+/* Footer (Optional) */
+footer {
+  text-align: center;
+  margin-top: 20px;
+  color: #F3DFBF; /* Soft beige text */
+  width: 100%;
+}
+
+/* Responsive Styles for Mobile Devices */
+@media (max-width: 600px) {
+  body {
+    padding: 10px; /* Reduce padding for small screens */
+  }
+
+  /* Adjust input and button size for mobile */
+  input, select, button {
+    max-width: 100%;
+  }
+
+  /* Reminder item layout adjustments */
+  .reminder-item {
+    font-size: 14px; /* Slightly smaller text for mobile */
+  }
+}

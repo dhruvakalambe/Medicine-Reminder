@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Category Reminder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    input, select, button {
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #reminderList {
+      margin-top: 20px;
+    }
+    .reminder-item {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Reminder App</h1>
+  <label for="category">Category:</label>
+  <select id="category">
+    <option value="medicinal">Medicinal</option>
+    <option value="massage">Massage</option>
+    <option value="exercise">Exercise</option>
+  </select>
+  <br>
+  <label for="task">Task Name:</label>
+  <input type="text" id="task" placeholder="Enter task name">
+  <br>
+  <label for="time">Reminder Time (hh:mm):</label>
+  <input type="time" id="time">
+  <br>
+  <button id="addReminder">Add Reminder</button>
+  <div id="reminderList"></div>
+
+  <label for="frequency">Frequency:</label>
+<select id="frequency">
+  <option value="one-time">One-Time</option>
+  <option value="daily">Daily</option>
+</select>
+<br>
+
+  <script src="script.js"></script>
+</body>
+</html>
